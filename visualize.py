@@ -5,40 +5,6 @@ import matplotlib.pyplot as plt
 from IPython.display import display
 
 
-# Derived from https://pandas.pydata.org/pandas-docs/stable/style.html
-def highlight_abs_min(data, color='steelblue'):
-    '''
-    highlight the maximum in a Series or DataFrame
-    '''
-    attr = 'background-color: {}'.format(color)
-    if data.ndim == 1:  # Series from .apply(axis=0) or axis=1
-        is_abs_min = (data.abs() == data.abs().min())
-        return [attr if v else '' for v in is_abs_min]
-    else:  # from .apply(axis=None)
-        is_abs_min = data.abs() == data.abs().min().min()
-        return pd.DataFrame(np.where(is_abs_min, attr, ''),
-                            index=data.index, columns=data.columns)
-
-
-def plot_roc(models, ax=None):
-    if ax is None:
-        fig, ax = plt.subplots()
-    for i, model in enumerate(models):
-        if model['fpr'] is not None:
-            if i==0: 
-                lw = 3
-            else:
-                lw = 1
-            ax.plot(model['fpr'], model['tpr'], lw=lw,
-                    label='{} AUC = {:0.2f}'.format(model['name'], model['roc_auc']))
-    ax.set_title('Receiver Operating Characteristic')
-    ax.plot([0,1],[0,1],'k--')
-    ax.set_xlim([-0.01,1])
-    ax.set_ylim([0,1.01])
-    ax.legend(loc='lower right')
-    ax.set_ylabel('True Positive Rate')
-    ax.set_xlabel('False Positive Rate')
-    return
 
 
 # Derived from: http://scikit-learn.org/stable/auto_examples/model_selection/plot_confusion_matrix.html
