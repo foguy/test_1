@@ -7,56 +7,6 @@ from IPython.display import display
 
 
 
-# Derived from: http://scikit-learn.org/stable/auto_examples/model_selection/plot_confusion_matrix.html
-def plot_confusion_matrix(cm, classes, 
-                          reverse=True,
-                          ax=None, fig=None,
-                          normalize=False,
-                          title='Confusion matrix',
-                          cmap=plt.cm.Blues, 
-                          colorbar=True):
-    """
-    This function prints and plots the confusion matrix.
-    Normalization can be applied by setting `normalize=True`.
-    """
-    if reverse is True:
-        cm = cm[::-1,::-1]
-        classes = classes[::-1]
-    ax.set_title(title)
-    tick_marks = np.arange(len(classes))
-    ax.set_xticks(tick_marks)
-    ax.set_xticklabels(classes)
-    ax.set_yticks(tick_marks)
-    ax.set_yticklabels(classes)
-    
-    im = ax.imshow(cm, interpolation='nearest', cmap=cmap)
-    if colorbar:
-        fig.colorbar(im, ax=ax, shrink=0.7)
-
-    if normalize:
-        cm_norm = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
-
-    thresh = cm.max() / 2.
-    for i, j in itertools.product(range(cm.shape[0]), range(cm.shape[1])):
-        txt = "{:.0f}".format(cm[i,j])
-        if normalize:
-            txt = txt + "\n{:0.1%}".format(cm_norm[i,j])
-        
-        ax.text(j, i, txt, fontsize=14, fontweight='bold',
-                 horizontalalignment="center", verticalalignment="center",
-                 color="white" if cm[i, j] > thresh else "black")
-    ax.grid('off')
-    ax.set_ylabel('True label')
-    ax.set_xlabel('Predicted label')
-    return
-
-def get_rank_order(x):
-    # maximize most metrics
-    # except those we want to minimize
-    ascending = x.name in ('cross_entropy', 'pov_error_rate')
-    
-    return x.rank(ascending=ascending)
-
 
 def display_model_comparison(comp_models, 
                              show_roc=False, 
